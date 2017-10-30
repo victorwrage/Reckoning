@@ -1,0 +1,14 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- This is the line -->
+    <item>
+        <shape>
+            <solid android:color="@color/tab_bg" />
+        </shape>
+    </item>
+
+    <item android:drawable="@drawable/shape_right_left" android:bottom="1dp" >
+
+    </item>
+
+
+</layer-list>

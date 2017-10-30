@@ -1,0 +1,136 @@
+<resources>
+
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+
+    </style>
+
+    <!-- 数字按钮样式 -->
+    <style name="calculator_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/big_btn_backgroud_blue</item>
+        <item name="android:textColor">@color/reckoning_btn_text</item>
+        <item name="android:layout_margin">1dp</item>
+
+    </style>
+
+    <!-- 数字按钮样式 -->
+    <style name="verify_btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/verify_password_btn_bg</item>
+        <item name="android:textColor">@color/reckoning_txt</item>
+
+    </style>
+
+    <!-- 自定义Dialog -->
+    <style name="Custom_Progress" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="main_tab_btn">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#FFFFFF</item>
+
+    </style>
+
+
+    <style name="AnimationBottomFade">
+        <item name="android:windowEnterAnimation">@anim/inbottom_totop</item>
+        <item name="android:windowExitAnimation">@anim/intop_tobottom</item>
+    </style>
+    <style name="AnimationAlphaFade">
+        <item name="android:windowEnterAnimation">@anim/inalpha</item>
+        <item name="android:windowExitAnimation">@anim/outalpha</item>
+    </style>
+
+    <style name="time_dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/background</item>
+    </style>
+
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <!--边框-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item>
+        <!--半透明-->
+        <item name="android:windowNoTitle">true</item>
+        <!--无标题-->
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <!--背景透明-->
+        <item name="android:backgroundDimEnabled">true</item>
+        <!--模糊-->
+    </style>
+
+    <declare-styleable name="SlideListView">
+        <attr name="slideAnimationTime" format="integer" />
+        <attr name="slideMode" format="enum">
+            <enum name="none" value="0" />
+            <enum name="left" value="1" />
+            <enum name="right" value="2" />
+            <enum name="both" value="3" />
+        </attr>
+        <attr name="slideLeftAction" format="enum">
+            <enum name="scroll" value="0" />
+            <enum name="reveal" value="1" />
+        </attr>
+        <attr name="slideRightAction" format="enum">
+            <enum name="scroll" value="0" />
+            <enum name="reveal" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <item name="slide_id_front_view" type="id"/>
+    <item name="slide_id_left_back_view" type="id"/>
+    <item name="slide_id_right_back_view" type="id"/>
+
+
+
+    <style name="essay_title_normal" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:minHeight">40dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/grey</item>
+
+    </style>
+
+    <style name="essay_content" >
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/text_color</item>
+
+    </style>
+    <style name="essay_detail" >
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/gray</item>
+
+    </style>
+    <style name="essay_time" >
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/gray</item>
+
+    </style>
+</resources>

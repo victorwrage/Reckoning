@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">结账</string>
+    <string name="msg_exit">退出结账吗？</string>
+    <string name="scan">正在扫码</string>
+    <string name="scan_orc">正在扫描</string>
+    <string name="scan_tip"></string>
+    <string name="push_title"> 您收到一条新消息</string>
+    <string name="push_content"> 请点击查看</string>
+    <string name="register"><u>注册</u></string>
+    <string name="retry">重试</string>
+    <string name="forgot"><u>忘记密码？</u></string>
+    <string name="login"><u>登录</u></string>
+
+
+    <string name="cancle">取消</string>
+    <string name="title">请选择时间</string>
+    <string name="commit">确定</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="hour">时</string>
+    <string name="minute">分</string>
+
+
+
+    <string name="action_settings">设置</string>
+    <string name="action_search">搜</string>
+    <string name="imate_back">返回</string>
+    <string name="edit_text_search">请输入关键字</string>
+    <string name="voice_cancel">取消语音搜索</string>
+
+    <!--Database Name-->
+    <string name="database_name">database_log</string>
+    <string name="string_filler">过滤</string>
+
+    <string name="customactivityoncrash_error_activity_error_occurred_explanation">发生了一个错误，我们对此十分抱歉！</string>
+    <string name="customactivityoncrash_error_activity_restart_app">重启应用</string>
+    <string name="customactivityoncrash_error_activity_close_app">关闭应用</string>
+    <string name="customactivityoncrash_error_activity_error_details">错误详情</string>
+    <string name="customactivityoncrash_error_activity_error_details_title">错误详情</string>
+    <string name="customactivityoncrash_error_activity_error_details_close">关闭</string>
+    <string name="customactivityoncrash_error_activity_error_details_copy">拷贝</string>
+    <string name="customactivityoncrash_error_activity_error_details_copied">已经拷贝</string>
+    <string name="customactivityoncrash_error_activity_error_details_clipboard_label">错误信息</string>
+
+</resources>

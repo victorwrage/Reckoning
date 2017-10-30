@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/main_root_lay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <include
+            android:id="@+id/main_list_head_lay"
+            layout="@layout/item_dish_head"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:id="@+id/main_bottom_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/reckoning_item_txt"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/main_discount_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/big_btn_backgroud"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/main_discount_iv"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/pay_icon" />
+
+                    <TextView
+                        android:id="@+id/main_discount_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/main_pay_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/big_btn_backgroud_green"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/payment" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="结账"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/main_total_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/main_content_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/main_bottom_lay"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="40dp">
+
+            <com.zdv.reckoning.customView.RecyclerViewWithEmpty
+                android:id="@+id/main_dish_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/reckoning_item_txt" />
+
+            <TextView
+                android:id="@+id/main_origin_tv"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@id/main_dish_list"
+                android:background="@color/white"
+                android:gravity="center|right"
+                android:text="总计:500元"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <include
+                android:id="@+id/empty_lay"
+                layout="@layout/empty_lay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/main_tip_lay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+        <ImageView
+            android:id="@+id/main_tip_scan_iv"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:src="@drawable/scan_icon"/>
+        <TextView
+            android:id="@+id/main_tip_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="36sp"
+            android:textColor="@color/reckoning_txt"
+            android:text="请扫描台号"/>
+    </LinearLayout>
+
+</RelativeLayout>
