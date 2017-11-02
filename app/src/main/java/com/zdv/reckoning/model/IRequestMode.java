@@ -21,15 +21,15 @@ public interface IRequestMode {
     Flowable<ResponseBody> QueryOrder(@Field("th") String th);
 
     @FormUrlEncoded
-    @POST("zdvcy/zkl ")
+    @POST("zdvcy/zkl")
     Flowable<ResponseBody> QueryDiscountRate(@Field("th") String th, @Field("zkl") String zkl);
 
     @FormUrlEncoded
-    @POST("zdvcy/zk ")
-    Flowable<ResponseBody> QueryDiscountMoney(@Field("th") String th, @Field("zk") String zk);
+    @POST("zdvcy/sgdz")
+    Flowable<ResponseBody> QueryDiscountMoney(@Field("th") String th, @Field("lxh") String lxh,@Field("dzj") String dzj);
 
     @FormUrlEncoded
-    @POST("zdvcy/sgdy ")
+    @POST("zdvcy/sgdy")
     Flowable<ResponseBody> QuerySynchronizePay(@Field("th") String th);
 
    }

@@ -333,7 +333,7 @@ public class FragmentMain extends BaseFragment implements IPayView {
                 discount_rate = Integer.parseInt(calculate_act_et.getText().toString()) * 0.01;
                 total = Double.parseDouble(calculate_charge_tv.getText().toString());
                 print_info.put(discount_rate_flag, discount_rate + "");
-                main_total_tv.setText(" (￥" + Math.round(total) + ")");
+                main_total_tv.setText(" (￥" + total + ")");
                 main_discount_iv.setImageResource(R.drawable.zhe_red);
                 main_discount_tv.setText(" " + discount_rate);
                 break;
@@ -406,7 +406,7 @@ public class FragmentMain extends BaseFragment implements IPayView {
                 }
                 BigDecimal b1 = new BigDecimal(act *  Double.parseDouble(calculate_act_et.getText().toString())*0.01);
                 double result2 = b1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                calculate_charge_tv.setText(Math.round(result2) + "");
+                calculate_charge_tv.setText(result2 + "");
                 break;
             case 2://优惠
                 if (Double.parseDouble(temp_add_sb.toString()) > act) {
@@ -443,7 +443,7 @@ public class FragmentMain extends BaseFragment implements IPayView {
                 calculate_act_et.setText(temp_dec_sb.toString());
                 BigDecimal b1 = new BigDecimal(act * Double.parseDouble(calculate_act_et.getText().toString())*0.01);
                 double result2 = b1.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                calculate_charge_tv.setText(Math.round(result2) + "");
+                calculate_charge_tv.setText(result2 + "");
 
                 break;
             case 2://优惠
@@ -584,7 +584,7 @@ public class FragmentMain extends BaseFragment implements IPayView {
     private void SynchronizeMoney() {
         showWaitDialog("请稍等");
         present.initRetrofit(Constant.URL_DIANCANG, false);
-        present.QueryDiscountMoney(key, discount_money + "");
+        present.QueryDiscountMoney(key, print_info.get("order_no"),"-"+discount_amount );
     }
 
     /**
@@ -735,7 +735,6 @@ public class FragmentMain extends BaseFragment implements IPayView {
                 main_root_lay.setVisibility(View.GONE);
                 main_tip_lay.setVisibility(View.VISIBLE);
                 main_tip_tv.setText("台号("+key+")已经结账");
-
                 return;
             }
 
@@ -746,7 +745,6 @@ public class FragmentMain extends BaseFragment implements IPayView {
                 main_root_lay.setVisibility(View.GONE);
                 main_tip_lay.setVisibility(View.VISIBLE);
                 main_tip_tv.setText("台号("+key+")已经结账");
-
                 return;
             }
             //        print_info.put(merchant_name, jsonObject2.optString("dj"));
@@ -759,20 +757,17 @@ public class FragmentMain extends BaseFragment implements IPayView {
             print_info.put(order_no, jsonObject2.optString("zdh"));
             print_info.put(cashier, jsonObject2.optString("printp"));
             //       print_info.put(merchant_phone, jsonObject2.optString("yyr"));
-
             /**======解析菜单======*/
             JSONArray dishObj = jsonObject.optJSONArray("dcmx");
             if (dishObj == null) {
                 main_root_lay.setVisibility(View.GONE);
                 main_tip_lay.setVisibility(View.VISIBLE);
                 main_tip_tv.setText("台号错误或者已经结账");
-
                 return;
             }
             // KLog.v(dishObj.toString());
             total = 0.00;
             data.clear();
-
             for (int s = 0; s < dishObj.length(); s++) {
                 JSONObject jsonObject1 = dishObj.getJSONObject(s);
                 DishBean dishBean = new DishBean();
@@ -794,7 +789,7 @@ public class FragmentMain extends BaseFragment implements IPayView {
             main_root_lay.setVisibility(View.VISIBLE);
             main_tip_lay.setVisibility(View.GONE);
             listener.showTableNum();
-         //   listener.printOrder(data,print_info);
+            //listener.printOrder(data,print_info);
         } catch (JSONException e) {
             main_root_lay.setVisibility(View.GONE);
             main_tip_lay.setVisibility(View.VISIBLE);
@@ -931,6 +926,7 @@ public class FragmentMain extends BaseFragment implements IPayView {
                 VToast.toast(getContext(), "结账成功");
                 listener.hideTableNum();
                 main_tip_lay.setVisibility(View.VISIBLE);
+                main_tip_tv.setText("台号("+key+")已经结账");
                 main_root_lay.setVisibility(View.GONE);
             }else if (dishObj2.equals("01")) {//已经结账
                 VToast.toast(getContext(), "台号已经结账");

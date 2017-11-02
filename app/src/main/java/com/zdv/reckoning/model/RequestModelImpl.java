@@ -25,9 +25,10 @@ public class RequestModelImpl implements IRequestMode {
     }
 
     @Override
-    public Flowable<ResponseBody> QueryDiscountMoney(@Field("th") String th, @Field("zk") String zk) {
-        return iRequestMode.QueryDiscountMoney(th, zk);
+    public Flowable<ResponseBody> QueryDiscountMoney(String th, String lxh, String dzj) {
+        return iRequestMode.QueryDiscountMoney(th, lxh, dzj);
     }
+
 
     @Override
     public Flowable<ResponseBody> QuerySynchronizePay(@Field("th") String th) {

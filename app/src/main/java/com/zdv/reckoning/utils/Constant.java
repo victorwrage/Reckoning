@@ -15,7 +15,7 @@ public class Constant {
 
 
     public static final String URL_SHANGTONGTIANXIA = "http://wdt.qianhaiwei.com/ThinkCmf/";//百宝
-    public static final String URL_DIANCANG = "http://192.168.0.177:8080/ZDV_CYXT/";//百宝
+    public static final String URL_DIANCANG = "http://192.168.0.66:8080/ZDV_CYXT/";//百宝
 
 
     public static final String CONSTANT_MERCHANT_ID = "617061910264433";//
@@ -118,6 +118,6 @@ public class Constant {
 
     public static boolean ENABLE_SCAN_PRINT = false;
     public static String PAY_TOTAL = "0";
-    public static String MESSAGE_UPDATE_TIP;
+    public static String MESSAGE_UPDATE_TIP ="";
     public static String codeStr= "";
 }

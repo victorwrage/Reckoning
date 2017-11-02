@@ -40,6 +40,7 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
      */
     private final String pay_type = "pay_type";//支付类型
     private final String cashier = "cashier";//收银员
+    private final String deal_time = "eat_time";//收银员
     private final String order_no = "order_no";//账单号
     private final String table_no = "table_no";//台号
     private final String discount_money = "discount_money";//优惠金额
@@ -200,6 +201,9 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
         }
     }
 
+    /**
+     * 打开扫描器
+     */
     private void startScan() {
         showWaitDialog("请稍等");
         promptHandler.postDelayed(() -> {
@@ -263,6 +267,11 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
         gotoPage(1);
     }
 
+    /**
+     * 打印账单
+     * @param data
+     * @param print_info
+     */
     private void printContent(ArrayList<DishBean> data, HashMap<String, String> print_info) {
         String pay_tp = "";
 
@@ -277,9 +286,7 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
                 pay_tp = "现金";
                 break;
         }
-        //       Bitmap bitmap = util.readBitMap(context, R.drawable.print_icon);
-//        Bitmap allBitmap2 = util.createLogo2(context,bitmap);
-        //    printer.DLL_PrnBmp(allBitmap2);
+       // pay_tp = "微信";
 
         printer.DLL_PrnSetFont((byte) 24, (byte) 24, (byte) 0x00);
         printer.DLL_PrnStr("---------------------------------------\n");
@@ -287,44 +294,31 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
             printer.DLL_PrnStr(print_info.get(merchant_name) + "\n");
         }
         printer.DLL_PrnStr("---------------------------------------\n");
-        printer.DLL_PrnStr("台    号:" + print_info.get(table_no) + "\n");
+        printer.DLL_PrnStr("台     号:" + print_info.get(table_no) + "\n");
         printer.DLL_PrnStr("账 单 号:" + print_info.get(order_no) + "\n");
-        printer.DLL_PrnStr("餐    时:" + print_info.get(meal_order) + "         人   数" + print_info.get(eat_person_num) + "（人）\n");
+        printer.DLL_PrnStr("用餐时间:" + print_info.get(deal_time) + "\n");
+        printer.DLL_PrnStr("餐     时:" + print_info.get(meal_order) + "         人   数" + print_info.get(eat_person_num) + "（人）\n");
         printer.DLL_PrnStr("---------------------------------------\n");
-        printer.DLL_PrnStr("消费项目      单价       数量    金额\n");
+        printer.DLL_PrnStr("消费项目         单价    数量    金额\n");
         printer.DLL_PrnStr("---------------------------------------\n");
         for (int s = 0; s < data.size(); s++) {
-            int len = data.get(s).getSpfl().length();
-            String blank_space =  "";
-            switch(len){
-                case 3:
-                    blank_space =  "     ";
-                    break;
-                case 2:
-                     blank_space =  "        ";
-                    break;
-                case 1:
-                    blank_space =  "              ";
-                    break;
-                default:
-                    break;
-            }
-            printer.DLL_PrnStr(data.get(s).getSpfl() + blank_space + "      " + data.get(s).getDj() + "        " + data.get(s).getSl() + "      " +
-                    Double.parseDouble(data.get(s).getSl()) * Double.parseDouble(data.get(s).getDj()) + "\n");
+            printer.DLL_PrnStr(getConstantString(false,6,data.get(s).getSpfl())  + getConstantString(true,8,data.get(s).getDj())  +
+                    getConstantString(true,4,Math.round(Double.parseDouble(data.get(s).getSl()))+"")  +"   "+
+                    Double.parseDouble(data.get(s).getSl()) * Double.parseDouble(data.get(s).getDj())+"\n");
         }
         printer.DLL_PrnStr("---------------------------------------\n");
         printer.DLL_PrnStr("总计:" + print_info.get(total_money) + "元\n");
         if(print_info.get(discount_money) == null){
-            printer.DLL_PrnStr("优惠金额 ");
+            printer.DLL_PrnStr("金额优惠 ");
         }else {
             String dis_m = Double.parseDouble(print_info.get(discount_money)) == 0 ? "" : print_info.get(discount_money) + "元\n";
-            printer.DLL_PrnStr("优惠金额 " + dis_m);
+            printer.DLL_PrnStr("金额优惠 " + dis_m);
         }
         if(print_info.get(discount_rate) == null){
-            printer.DLL_PrnStr("折扣率");
+            printer.DLL_PrnStr("折扣优惠");
         }else {
             String rate = (Integer.parseInt(print_info.get(discount_rate)) == 1) ? "" : "" + Double.parseDouble(print_info.get(discount_rate)) * 100 + "折\n";
-            printer.DLL_PrnStr("折扣率" + rate);
+            printer.DLL_PrnStr("折扣优惠" + rate);
         }
 
         printer.DLL_PrnStr("---------------------------------------\n");
@@ -332,7 +326,7 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
         printer.DLL_PrnStr("支付类型:" + pay_tp + "\n");
         printer.DLL_PrnStr("  \n");
 
-        printer.DLL_PrnStr("应收金额:" + print_info.get(act_money) + "元\n");
+        printer.DLL_PrnStr("实付金额:" + print_info.get(act_money) + "元\n");
         printer.DLL_PrnStr("---------------------------------------\n");
         printer.DLL_PrnStr("  \n");
         printer.DLL_PrnSetFont((byte) 20, (byte) 20, (byte) 0x00);
@@ -359,6 +353,9 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
 
     }
 
+    /**
+     * 初始化D2000扫描设备
+     */
     private void initDevice() {
         executor.execute(() -> {
             KLog.v("initDevice");
@@ -370,6 +367,32 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
         });
     }
 
+    /**
+     * 得到固定长度String用于打印
+     * @param len
+     * @param source
+     * @return
+     */
+    private String getConstantString(Boolean isNum,int len,String source){
+        char[] chars = source.toCharArray();
+        StringBuffer sb = new StringBuffer();
+        for(int s =0;s<len;s++){
+            if(s < chars.length) {
+                sb.append(chars[s]);
+            }else{
+                if(isNum) {
+                    sb.append(' ').append(' ');
+                }else{
+                    sb.append(' ').append(' ').append(' ').append(' ');
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * D2000机型初始化打印机
+     */
     private void initScannerPrinter() {
         String model = android.os.Build.MODEL;
         if (model.equals("D2000")) {
@@ -377,7 +400,10 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
         }
     }
 
-
+    /**
+     * 跳转到某个界面
+     * @param pageId
+     */
     private void gotoPage(int pageId) {
         if (pageId == cur_page) {
             return;

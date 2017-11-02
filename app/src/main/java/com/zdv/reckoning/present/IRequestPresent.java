@@ -12,6 +12,6 @@ public interface IRequestPresent {
 
     void QueryOrder(String th);
     void QueryDiscountRate(String th, String zkl);
-    void QueryDiscountMoney(String th,String zk);
+    void QueryDiscountMoney(String th, String lxh, String dzj);
     void QuerySynchronizePay(String th);
 }

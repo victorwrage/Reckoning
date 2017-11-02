@@ -219,8 +219,8 @@ public class QueryPresent implements IRequestPresent {
     }
 
     @Override
-    public void QueryDiscountMoney(String th, String zk) {
-        iRequestMode.QueryDiscountMoney(th,zk)
+    public void QueryDiscountMoney(String th, String lxh, String dzj) {
+        iRequestMode.QueryDiscountMoney(th, lxh, dzj)
                 .onErrorReturn(s -> new ResponseBody() {
                     @Override
                     public MediaType contentType() {
