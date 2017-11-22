@@ -22,7 +22,7 @@ public interface IFragmentActivity {
 
     void closeScan();
 
-    void showTableNum();
+    void showTableNum(String result);
 
     void hideTableNum();
 }

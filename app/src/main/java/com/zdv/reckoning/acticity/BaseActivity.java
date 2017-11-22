@@ -37,6 +37,7 @@ public class BaseActivity extends FragmentActivity {
     protected static final String PAGE_1 = "page_1";
     protected static final String PAGE_2 = "page_2";
     protected static final String PAGE_3 = "page_3";
+    protected static final String PAGE_4 = "page_4";
 
     protected BaseFragment cur_fragment;
 

@@ -7,17 +7,20 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.gyf.barlibrary.ImmersionBar;
+import com.jakewharton.rxbinding2.view.RxView;
 import com.pos.api.Printer;
 import com.socks.library.KLog;
 import com.zdv.reckoning.acticity.BaseActivity;
 import com.zdv.reckoning.bean.DishBean;
 import com.zdv.reckoning.fragment.FragmentMain;
 import com.zdv.reckoning.fragment.FragmentScan;
+import com.zdv.reckoning.fragment.FragmentSetting;
 import com.zdv.reckoning.utils.Constant;
 import com.zdv.reckoning.utils.D2000V1ScanInitUtils;
 import com.zdv.reckoning.utils.Utils;
@@ -27,6 +30,7 @@ import com.zdv.reckoning.view.IFragmentActivity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -35,6 +39,11 @@ import cn.bmob.v3.update.UpdateStatus;
 
 
 public class MainActivity extends BaseActivity implements IFragmentActivity {
+    private  final String SERVER_IP = "SERVER_IP";
+    protected final String SERVER_PORT = "SERVER_PORT";
+    protected final String SHOP_NAME = "SHOP_NAME";
+    protected final String SHOP_TEL = "SHOP_TEL";
+
     /**
      * =====================打印信息================
      */
@@ -63,7 +72,8 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
     private final static int SCAN_CLOSED = 20;
     Printer printer;
 
-
+    @Bind(R.id.header_setting_lay)
+    LinearLayout header_setting_lay;
     @Bind(R.id.main_header_lay)
     RelativeLayout main_header_lay;
     @Bind(R.id.activity_table_tv)
@@ -127,6 +137,24 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
         ft.add(R.id.fragment_container, fragment0, PAGE_0);
         ft.show(fragment0);
         ft.commit();
+
+
+        RxView.clicks(header_setting_lay).throttleFirst(500, TimeUnit.MILLISECONDS).subscribe(s -> showSetting());
+        if(!util.isIP(sp.getString(SERVER_IP,""))){
+            showSetting();
+        }else{
+            Constant.URL_DIANCANG = "http://"+sp.getString(SERVER_IP,"") +":"+
+                    sp.getString(SERVER_PORT,"")+"/ZDV_CYXT/";
+        }
+    }
+
+    /**
+     * 显示设置
+     */
+    private void showSetting(){
+        FragmentSetting fragmentSetting = new FragmentSetting();
+        fragmentSetting.setCancelable(false);
+        fragmentSetting.show(getFragmentManager(),PAGE_4);
     }
 
     private Handler promptHandler = new Handler() {
@@ -163,7 +191,8 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
     }
 
     @Override
-    public void showTableNum() {
+    public void showTableNum(String result) {
+        code = (result==null)?code:result;
         activity_table_tv.setText("结账（台号:" + code + ")");
     }
 
@@ -179,9 +208,7 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
             initDevice();
             if (isInit) {
                 showWaitDialog("请稍后");
-                promptHandler.postDelayed(() -> {
-                    hideWaitDialog();
-                }, 5000);
+                promptHandler.postDelayed(() -> hideWaitDialog(), 5000);
             }
         }
     }
@@ -290,8 +317,8 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
 
         printer.DLL_PrnSetFont((byte) 24, (byte) 24, (byte) 0x00);
         printer.DLL_PrnStr("---------------------------------------\n");
-        if(print_info.get(merchant_name) != null) {
-            printer.DLL_PrnStr(print_info.get(merchant_name) + "\n");
+        if(!sp.getString(SHOP_NAME,"").equals("")) {
+            printer.DLL_PrnStr(sp.getString(SHOP_NAME,"") + "\n");
         }
         printer.DLL_PrnStr("---------------------------------------\n");
         printer.DLL_PrnStr("台     号:" + print_info.get(table_no) + "\n");
@@ -342,8 +369,8 @@ public class MainActivity extends BaseActivity implements IFragmentActivity {
         printer.DLL_PrnStr("  \n");
         printer.DLL_PrnSetFont((byte) 17, (byte) 17, (byte) 0x00);
         printer.DLL_PrnStr("             多谢惠顾，欢迎再次光临  \n");
-        if(print_info.get(merchant_phone) != null) {
-            printer.DLL_PrnStr("             订座电话：" + print_info.get(merchant_phone) + "\n");
+        if(!sp.getString(SHOP_TEL,"").equals("")) {
+            printer.DLL_PrnStr("             订座电话：" + sp.getString(SHOP_TEL,"") + "\n");
         }
         printer.DLL_PrnStr("            \n");
         printer.DLL_PrnStr("---------------------------------------\n");

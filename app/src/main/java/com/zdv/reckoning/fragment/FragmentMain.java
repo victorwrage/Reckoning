@@ -56,6 +56,9 @@ import okhttp3.ResponseBody;
 
 public class FragmentMain extends BaseFragment implements IPayView {
     private static final int INTENT_QHW_SWISHCARDAPP = 101;
+
+
+
     /**
      * =====================打印信息================
      */
@@ -218,6 +221,7 @@ public class FragmentMain extends BaseFragment implements IPayView {
             Constant.codeStr = "";
         }
 
+
     }
 
     private void test() {
@@ -238,10 +242,11 @@ public class FragmentMain extends BaseFragment implements IPayView {
 
         main_root_lay.setVisibility(View.VISIBLE);
         main_tip_lay.setVisibility(View.GONE);
-        listener.showTableNum();
+        listener.showTableNum(null);
 
         adapter.notifyDataSetChanged();
     }
+
 
     /**
      * 弹出计算器
@@ -769,10 +774,12 @@ public class FragmentMain extends BaseFragment implements IPayView {
             total = 0.00;
             data.clear();
             for (int s = 0; s < dishObj.length(); s++) {
+
                 JSONObject jsonObject1 = dishObj.getJSONObject(s);
+                KLog.v(jsonObject1.toString());
                 DishBean dishBean = new DishBean();
                 dishBean.setDj(jsonObject1.optString("dj"));
-                dishBean.setSpfl(jsonObject1.optString("spfl"));
+                dishBean.setSpfl(jsonObject1.optString("spmc"));
                 dishBean.setSl(jsonObject1.optString("sl"));
                 dishBean.setZk(jsonObject1.optString("zk"));
                 total = util.add(total, Double.parseDouble(dishBean.getSl()) * Double.parseDouble(dishBean.getDj()));
@@ -788,7 +795,7 @@ public class FragmentMain extends BaseFragment implements IPayView {
 
             main_root_lay.setVisibility(View.VISIBLE);
             main_tip_lay.setVisibility(View.GONE);
-            listener.showTableNum();
+            listener.showTableNum(null);
             //listener.printOrder(data,print_info);
         } catch (JSONException e) {
             main_root_lay.setVisibility(View.GONE);

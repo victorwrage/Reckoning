@@ -92,6 +92,7 @@ public class Utils {
             "7",
             "8", "9", "a", "b", "c", "d", "e",
             "f"};
+
     public Bitmap addTopBmp(Bitmap topBitmap, Bitmap bottomBitmap, Bitmap contentBitmap) {
 
         Bitmap bitmap = Bitmap.createBitmap(contentBitmap.getWidth(), contentBitmap.getHeight() + topBitmap.getHeight() + bottomBitmap.getHeight(), contentBitmap.getConfig());
@@ -102,15 +103,48 @@ public class Utils {
         return bitmap;
     }
 
+    public boolean isIP(String addr) {
+        if (addr.length() < 7 || addr.length() > 15 || "".equals(addr)) {
+            return false;
+        }
+        /**
+         * 判断IP格式和范围
+         */
+        String rexp = "([1-9]|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}";
+        Pattern pat = Pattern.compile(rexp);
+        Matcher mat = pat.matcher(addr);
+        boolean ipAddress = mat.find();
+        //============对之前的ip判断的bug在进行判断
+        if (ipAddress == true) {
+            String ips[] = addr.split("\\.");
+            if (ips.length == 4) {
+                try {
+                    for (String ip : ips) {
+                        if (Integer.parseInt(ip) < 0 || Integer.parseInt(ip) > 255) {
+                            return false;
+                        }
+                    }
+                } catch (Exception e) {
+                    return false;
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return ipAddress;
+    }
 
 
-    public  float convertDpToPixel(float dp, Context context) {
+    public float convertDpToPixel(float dp, Context context) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return dp * (metrics.densityDpi / 160f);
     }
 
-  /*  *//**
+  /*  */
+
+    /**
      * 生成带LOGO的二维码
      *//*
     public Bitmap createCode2(String content, String top, Bitmap logoBitmap)
@@ -183,7 +217,6 @@ public class Utils {
         bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
         return bitmap;
     }*/
-
     public String getSerialNumber() {
         String serial = null;
         try {
@@ -260,9 +293,11 @@ public class Utils {
         return fm.leading - fm.ascent;
     }
 
-   /* *//**
-     * 生成带LOGO的二维码
-     *//*
+   /* */
+
+/**
+ * 生成带LOGO的二维码
+ *//*
 
     public Bitmap createCode(String content, Bitmap logoBitmap)
             throws WriterException {
@@ -332,29 +367,30 @@ public class Utils {
         return bitmap;
     }*/
 
-    public class LogoConfig {
-        /**
-         * @return 返回带有白色背景框logo
-         */
-        public Bitmap modifyLogo(Bitmap bgBitmap, Bitmap logoBitmap) {
+public class LogoConfig {
+    /**
+     * @return 返回带有白色背景框logo
+     */
+    public Bitmap modifyLogo(Bitmap bgBitmap, Bitmap logoBitmap) {
 
-            int bgWidth = bgBitmap.getWidth();
-            int bgHeigh = bgBitmap.getHeight();
-            //通过ThumbnailUtils压缩原图片，并指定宽高为背景图的3/4
-            logoBitmap = ThumbnailUtils.extractThumbnail(logoBitmap, bgWidth * 3 / 4, bgHeigh * 3 / 4, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
-            Bitmap cvBitmap = Bitmap.createBitmap(bgWidth, bgHeigh, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(cvBitmap);
-            // 开始合成图片
-            canvas.drawBitmap(bgBitmap, 0, 0, null);
-            canvas.drawBitmap(logoBitmap, (bgWidth - logoBitmap.getWidth()) / 2, (bgHeigh - logoBitmap.getHeight()) / 2, null);
-            canvas.save(Canvas.ALL_SAVE_FLAG);// 保存
-            canvas.restore();
-            if (cvBitmap.isRecycled()) {
-                cvBitmap.recycle();
-            }
-            return cvBitmap;
+        int bgWidth = bgBitmap.getWidth();
+        int bgHeigh = bgBitmap.getHeight();
+        //通过ThumbnailUtils压缩原图片，并指定宽高为背景图的3/4
+        logoBitmap = ThumbnailUtils.extractThumbnail(logoBitmap, bgWidth * 3 / 4, bgHeigh * 3 / 4, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+        Bitmap cvBitmap = Bitmap.createBitmap(bgWidth, bgHeigh, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(cvBitmap);
+        // 开始合成图片
+        canvas.drawBitmap(bgBitmap, 0, 0, null);
+        canvas.drawBitmap(logoBitmap, (bgWidth - logoBitmap.getWidth()) / 2, (bgHeigh - logoBitmap.getHeight()) / 2, null);
+        canvas.save(Canvas.ALL_SAVE_FLAG);// 保存
+        canvas.restore();
+        if (cvBitmap.isRecycled()) {
+            cvBitmap.recycle();
         }
+        return cvBitmap;
     }
+
+}
 
     private static Utils instance = null;
 
@@ -390,7 +426,6 @@ public class Utils {
     }
 
 
-
     public boolean isEmail(String strEmail) {
         String strPattern = "^[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]@[a-zA-Z0-9][\\w\\.-]*[a-zA-Z0-9]\\.[a-zA-Z][a-zA-Z\\.]*[a-zA-Z]$";
         if (TextUtils.isEmpty(strPattern)) {
@@ -421,33 +456,35 @@ public class Utils {
      * @param context
      * @return
      */
-    public  int getScreenWidth(Context context) {
+    public int getScreenWidth(Context context) {
         WindowManager wm = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.widthPixels;
     }
+
     /**
      * 获得屏幕宽度
      *
      * @param context
      * @return
      */
-    public  int getScreenHeight(Context context) {
+    public int getScreenHeight(Context context) {
         WindowManager wm = (WindowManager) context
                 .getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.heightPixels;
     }
+
     /**
      * 获得状态栏的高度
      *
      * @param context
      * @return
      */
-    public  int getStatusHeight(Context context) {
+    public int getStatusHeight(Context context) {
         int statusHeight = -1;
         try {
             Class<?> clazz = Class.forName("com.android.internal.R$dimen");
@@ -460,10 +497,11 @@ public class Utils {
         }
         return statusHeight;
     }
+
     /**
      * 获取虚拟功能键高度
      */
-    public  int getVirtualBarHeigh(Context context) {
+    public int getVirtualBarHeigh(Context context) {
         int vh = 0;
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         Display display = windowManager.getDefaultDisplay();
@@ -480,7 +518,8 @@ public class Utils {
         }
         return vh;
     }
-    public  int getVirtualBarHeigh(Activity activity) {
+
+    public int getVirtualBarHeigh(Activity activity) {
         int titleHeight = 0;
         Rect frame = new Rect();
         activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
@@ -632,7 +671,7 @@ public class Utils {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        KLog.d("前"+distanceDay+"天==" + dft.format(endDate));
+        KLog.d("前" + distanceDay + "天==" + dft.format(endDate));
         return dft.format(endDate);
     }
 
@@ -730,35 +769,25 @@ public class Utils {
         }
     }
 
-    public String getMD5(String info)
-    {
-        try
-        {
+    public String getMD5(String info) {
+        try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             md5.update(info.getBytes("UTF-8"));
             byte[] encryption = md5.digest();
 
             StringBuffer strBuf = new StringBuffer();
-            for (int i = 0; i < encryption.length; i++)
-            {
-                if (Integer.toHexString(0xff & encryption[i]).length() == 1)
-                {
+            for (int i = 0; i < encryption.length; i++) {
+                if (Integer.toHexString(0xff & encryption[i]).length() == 1) {
                     strBuf.append("0").append(Integer.toHexString(0xff & encryption[i]));
-                }
-                else
-                {
+                } else {
                     strBuf.append(Integer.toHexString(0xff & encryption[i]));
                 }
             }
 
             return strBuf.toString();
-        }
-        catch (NoSuchAlgorithmException e)
-        {
+        } catch (NoSuchAlgorithmException e) {
             return "";
-        }
-        catch (UnsupportedEncodingException e)
-        {
+        } catch (UnsupportedEncodingException e) {
             return "";
         }
     }

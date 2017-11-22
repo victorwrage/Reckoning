@@ -162,6 +162,7 @@ public class FragmentScan extends BaseFragment implements QRCodeView.Delegate,IV
         KLog.v("result:" + result);
         codeStr = result;
         Constant.codeStr = result;
+        listener.showTableNum(result);
         listener.gotoMain();
     }
 

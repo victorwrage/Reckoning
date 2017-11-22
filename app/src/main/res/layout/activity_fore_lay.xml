@@ -40,6 +40,21 @@
                     android:textSize="22sp"
                     android:textStyle="bold" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/header_setting_lay"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/big_btn_backgroud_blue"
+                android:gravity="center"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/header_setting_iv"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/setting1"/>
+            </LinearLayout>
         </RelativeLayout>
 
         <RelativeLayout
